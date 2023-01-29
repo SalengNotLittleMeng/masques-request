@@ -10,7 +10,7 @@ export default defineConfig({
     watch: {},
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, 'src/main.ts'),
+      entry: resolve(__dirname, 'src/main.js'),
       name: 'masquesRequest',
       // the proper extensions will be added
       fileName: 'masquesRequest',
