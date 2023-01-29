@@ -23,9 +23,13 @@
         this.$http({
           method: 'get',
           url: './mock.json',
+          data: { hello: this.a },
         }).then((res) => {
           console.log(res);
         });
+      },
+      data: {
+        a: 12,
       },
     });
   </script>

@@ -1,9 +1,11 @@
+// 处理请求错误的类
 export default class ErrorHandler {
   constructor(options) {
     const { errorStateMap } = options.errorHandler;
     this.errorStateMap = errorStateMap;
     this.errorStateMap['default'] = this.errorStateMap['default'] || '好像出了一点问题哦';
   }
+// 根据状态码进行处理
   responseErrorStatusHandler(response, error) {
     if (response) {
       // 请求不成功但返回结果

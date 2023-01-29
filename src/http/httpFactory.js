@@ -2,6 +2,7 @@ import axios from 'axios';
 import Interceptor from './Interceptors';
 import Qs from 'qs';
 import Merge from '../merge/merge';
+// 创建http请求对象的工厂函数
 export default class HttpFactory {
   constructor(options = {}) {
     this.merge = new Merge();
@@ -9,12 +10,15 @@ export default class HttpFactory {
     this.interceptor = new Interceptor(this.instance);
     this.interceptor.addUtilsConfig(options);
   }
+  // 设置请求拦截器
   setRequestInterceptors(success, error) {
     this.interceptor.request(success, error);
   }
+  // 设置响应拦截器
   setResponseInterceptors(success, error) {
     this.interceptor.response(success, error);
   }
+  // 重新设置请求头
   setRequestHeadConfig(config) {
     const Type = config.type;
     const requestTypeStrategyPond = {
@@ -23,6 +27,7 @@ export default class HttpFactory {
           'Content-Type': 'application/json',
         };
       },
+      // 这里抹平formData,urlencoded与json的配置差异，不论格式如何都传一个对象
       formData: (config) => {
         config.headers = {
           'Content-Type': 'multipart/form-data',
@@ -37,6 +42,7 @@ export default class HttpFactory {
         }
         config.data = newParams;
       },
+      // urlencoded类型请求需要进行序列化操作
       urlencoded: (config) => {
         config.headers = {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -51,11 +57,13 @@ export default class HttpFactory {
     requestTypeStrategyPond[Type](config);
     return config;
   }
+  // 为了确保处理顺序的可维护性，这里采用职责链遍历
   setConfigFunctionLine(config) {
     const processLine = [
       this.merge.mergeRequestDefaultOptons.bind(this.merge),
       this.setRequestHeadConfig,
       (config) => {
+        // 抹平请求方法参数的差异
         if (config.method === 'get') {
           config.params = config.data;
         }
@@ -66,6 +74,7 @@ export default class HttpFactory {
       return processLine[index](before);
     }, config);
   }
+  // 返回请求实例
   create() {
     const that = this;
     return function (config) {
