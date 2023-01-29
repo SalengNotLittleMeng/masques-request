@@ -3,9 +3,9 @@ import Interceptor from './Interceptors';
 import Qs from 'qs';
 import Merge from '../merge/merge';
 export default class HttpFactory {
-  constructor(options) {
+  constructor(options={}) {
     this.merge=new Merge()
-    this.instance = axios.create(options);
+    this.instance = axios.create(this.merge.getAxiosDefaultOptions(options.axiosOptions));
     this.interceptor = new Interceptor(this.instance);
     this.interceptor.addUtilsConfig(options);
   }
@@ -17,7 +17,7 @@ export default class HttpFactory {
   }
   setRequestHeadConfig(config){
     const Type=config.type
-    const configTypeStrategyPond={
+    const requestTypeStrategyPond={
         json:(config)=>{
           config.headers = {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export default class HttpFactory {
           ];
         }
     }
-    configTypeStrategyPond[Type](config)
+    requestTypeStrategyPond[Type](config)
     return config
   }
   setConfigFunctionLine(config){
@@ -58,7 +58,7 @@ export default class HttpFactory {
         }
         return config
       }]
-     return  processLine.reduce((before,after)=>{
+      return  processLine.reduce((before,after)=>{
           return after(before)
       },config)
   }

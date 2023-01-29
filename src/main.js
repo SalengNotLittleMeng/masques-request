@@ -7,6 +7,10 @@ export default class  MasquesRequest{
 
     }
     install(Vue){
-        Vue.config.globalProperties.$http=this.$http
+        if(Vue.prototype){
+            Vue.prototype.$http=this.$http
+        }else{
+            Vue.config.globalProperties.$http=this.$http
+        }
     }
 }
