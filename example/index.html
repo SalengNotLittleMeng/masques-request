@@ -12,10 +12,21 @@
     <div id="app"></div>
   </body>
   <script type="module">
-    import handlyDirectives from "../lib/handly-vue-directives.js";
-    Vue.use(new handlyDirectives());
+    import MasquesRequest from '../lib/masquesRequest.js';
+    const reuqest = new MasquesRequest();
+    Vue.use(reuqest);
+    // Vue.use(new handlyDirectives());
     let app = new Vue({
-      el: "#app",
+      el: '#app',
+      mounted() {
+        console.log(this.$http);
+        this.$http({
+          method: 'get',
+          url: './mock.json',
+        }).then((res) => {
+          console.log(res);
+        });
+      },
     });
   </script>
 </html>
