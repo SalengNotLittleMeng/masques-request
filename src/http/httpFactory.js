@@ -70,7 +70,7 @@ export default class HttpFactory {
     const that = this;
     return function (config) {
       config = that.setConfigFunctionLine(config);
-      return that.instance.call(this, config);
+      return that.instance(config);
     };
   }
 }
