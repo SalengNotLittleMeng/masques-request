@@ -12,7 +12,9 @@ export default class HttpFactory {
   setResponseInterceptors(success, error) {
     this.interceptor.response(success, error);
   }
-  create(options) {
-    return this.instance;
+  create() {
+    return function(config){
+      this.instance()
+    }
   }
 }
