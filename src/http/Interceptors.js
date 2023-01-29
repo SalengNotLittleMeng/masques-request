@@ -9,11 +9,12 @@ export default class Interceptor {
   response(success, error) {
     this.instance.interceptors.response.use(success, error);
   }
-  addUtilsConfig(options||{}){
+  addUtilsConfig(options={}){
     this.request(function(config){
     // 添加token
     addToken(config,options)
     // 添加auth
     addAuth(config,options)
- }
+ })
+}
 }
