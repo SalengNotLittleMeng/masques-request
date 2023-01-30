@@ -2,8 +2,6 @@ import axios from 'axios';
 import Qs from 'qs';
 import { ElLoading, ElMessage } from 'element-plus';
 import Baseconfig from '../config/myConfig';
-// 保存取消请求的Map对象
-const pendingMap = new Map();
 // 保存loading相关参数
 const LoadingInstance = {
   _target: null, // 保存Loading实例

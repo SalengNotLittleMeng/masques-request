@@ -3,6 +3,7 @@ import Interceptor from './Interceptors';
 import Qs from 'qs';
 import Merge from '../merge/merge';
 import { HttpHeaderTypeStrategyPond } from './httpHeader';
+import { useHook } from '../hooks/index';
 // 创建http请求对象的工厂函数
 export default class HttpFactory {
   constructor(options = {}) {
@@ -47,6 +48,7 @@ export default class HttpFactory {
   create() {
     const that = this;
     this.interceptor.useAllInterceptors();
+    useHook('beforeCreateInstance', this);
     return function (config) {
       config = that.setConfigFunctionLine(config);
       return that.instance(config);
