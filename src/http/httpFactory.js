@@ -47,8 +47,8 @@ export default class HttpFactory {
   // 返回请求实例
   create() {
     const that = this;
+    useHook('beforeCreateRequsetFunction', this);
     this.interceptor.useAllInterceptors();
-    useHook('beforeCreateInstance', this);
     return function (config) {
       config = that.setConfigFunctionLine(config);
       return that.instance(config);
