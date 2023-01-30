@@ -4,16 +4,26 @@ import { errorCallBack } from '../Error/errorHandler';
 export default class Interceptor {
   constructor(instance) {
     this.instance = instance;
+    this.interceptorsRequest = [];
+    this.interceptorsResponse = [];
   }
-  request(success, error = errorCallBack) {
-    this.instance.interceptors.request.use(success, error);
+  addRequestInterceptors(success, error = errorCallBack) {
+    this.interceptorsRequest.unshift({ success, error });
   }
-  response(success, error = errorCallBack) {
-    this.instance.interceptors.response.use(success, error);
+  addResponseInterceptors(success, error = errorCallBack) {
+    this.interceptorsResponse.push({ success, error });
+  }
+  useAllInterceptors() {
+    this.interceptorsRequest.forEach((interceptor) => {
+      this.instance.interceptors.request.use(...Object.values(interceptor));
+    });
+    this.interceptorsResponse.forEach((interceptor) => {
+      this.instance.interceptors.response.use(...Object.values(interceptor));
+    });
   }
   // 添加工具配置的拦截器
   addUtilsConfig(options = {}) {
-    this.request(function (config) {
+    this.addRequestInterceptors(function (config) {
       // 添加token
       addToken(config, options);
       // 添加auth

@@ -12,11 +12,11 @@ export default class HttpFactory {
   }
   // 设置请求拦截器
   setRequestInterceptors(success, error) {
-    this.interceptor.request(success, error);
+    this.interceptor.addRequestInterceptors(success, error);
   }
   // 设置响应拦截器
   setResponseInterceptors(success, error) {
-    this.interceptor.response(success, error);
+    this.interceptor.addResponseInterceptors(success, error);
   }
   // 重新设置请求头
   setRequestHeadConfig(config) {
@@ -77,6 +77,7 @@ export default class HttpFactory {
   // 返回请求实例
   create() {
     const that = this;
+    this.interceptor.useAllInterceptors();
     return function (config) {
       config = that.setConfigFunctionLine(config);
       return that.instance(config);

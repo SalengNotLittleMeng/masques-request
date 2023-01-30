@@ -2,14 +2,18 @@ import HttpFactory from './http/httpFactory';
 
 export default class MasquesRequest {
   constructor(options) {
+    this.options = options;
     this.httpFactory = new HttpFactory(options);
-    this.$http = this.httpFactory.create();
+  }
+  createRequestFunction(options = {}) {
+    return new HttpFactory(Object.assign(options, this.options)).create();
   }
   install(Vue) {
+    const $http = this.httpFactory.create();
     if (Vue.prototype) {
-      Vue.prototype.$http = this.$http;
+      Vue.prototype.$http = $http;
     } else {
-      Vue.config.globalProperties.$http = this.$http;
+      Vue.config.globalProperties.$http = $http;
     }
   }
 }
