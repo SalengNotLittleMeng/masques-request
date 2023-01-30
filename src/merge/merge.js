@@ -10,6 +10,7 @@ export default class Merge {
     return {
       method: 'post',
       type: 'json',
+      repeat_request_cancel: true,
     };
   }
   // 获取默认的axios配置
