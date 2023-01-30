@@ -2,6 +2,7 @@ import axios from 'axios';
 import Interceptor from './Interceptors';
 import Qs from 'qs';
 import Merge from '../merge/merge';
+import { HttpHeaderTypeStrategyPond } from './httpHeader';
 // 创建http请求对象的工厂函数
 export default class HttpFactory {
   constructor(options = {}) {
@@ -21,39 +22,7 @@ export default class HttpFactory {
   // 重新设置请求头
   setRequestHeadConfig(config) {
     const Type = config.type;
-    const requestTypeStrategyPond = {
-      json: (config) => {
-        config.headers = {
-          'Content-Type': 'application/json',
-        };
-      },
-      // 这里抹平formData,urlencoded与json的配置差异，不论格式如何都传一个对象
-      formData: (config) => {
-        config.headers = {
-          'Content-Type': 'multipart/form-data',
-        };
-        const params = config.data;
-        let newParams = null;
-        if (params) {
-          newParams = new FormData();
-          for (const i in params) {
-            newParams.append(i, params[i]);
-          }
-        }
-        config.data = newParams;
-      },
-      // urlencoded类型请求需要进行序列化操作
-      urlencoded: (config) => {
-        config.headers = {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        };
-        config.transformRequest = [
-          (data) => {
-            return Qs.stringify(data);
-          },
-        ];
-      },
-    };
+    const requestTypeStrategyPond = HttpHeaderTypeStrategyPond;
     requestTypeStrategyPond[Type](config);
     return config;
   }

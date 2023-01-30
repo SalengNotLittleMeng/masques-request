@@ -7,13 +7,17 @@ export default class Interceptor {
     this.interceptorsRequest = [];
     this.interceptorsResponse = [];
   }
+  // 添加请求拦截器
   addRequestInterceptors(success, error = errorCallBack) {
     this.interceptorsRequest.unshift({ success, error });
   }
+  // 添加响应拦截器
   addResponseInterceptors(success, error = errorCallBack) {
     this.interceptorsResponse.push({ success, error });
   }
+  // 使用所有拦截器，由于要考虑插件情况所以需要多封装一层
   useAllInterceptors() {
+    this.getResponseDataInterceptor();
     this.interceptorsRequest.forEach((interceptor) => {
       this.instance.interceptors.request.use(...Object.values(interceptor));
     });
@@ -29,6 +33,12 @@ export default class Interceptor {
       // 添加auth
       addAuth(config, options);
       return config;
+    });
+  }
+  // 过滤请求配置，这个方法应该是最后执行的响应拦截器
+  getResponseDataInterceptor() {
+    this.addResponseInterceptors((config) => {
+      return config.data;
     });
   }
 }
