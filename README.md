@@ -2,7 +2,7 @@
 
 ## 简介
 
-masques 中的内置的请求层模块，可以通过配置化的方式实现断线重连，参数统一，携带token
+masques 中的内置的请求层模块，可以通过配置化的方式实现取消重复请求，断线重连，参数统一，携带 token,自定义接入 loading 动画等，且支持自定义插件接入
 
 Vue3 脚手架的整体功能集成模板：：https://github.com/SalengNotLittleMeng/masques
 
@@ -28,7 +28,6 @@ yarn 安装:
 import MasquesRequest '@masques/request'
 ...
 Vue.use(new MasquesRequest(
-    name:'',
     tokenName:'token',
     tokenHeader:'tokenHeader'，
     auth:{
@@ -44,23 +43,15 @@ Vue.use(new MasquesRequest(
        },
        other:()=>{}
     },
-    component:{
-        loading:function(options){
-
-        },
-        message:function(options){
+    loading:{
+        service:()=>{
 
         }
-    },
-    hook:{
-        
-    },
-    axiosOptions:{
-        timeout:5000,
-        baseUrl:'',
+        close:()=>{
+
+        }
     }
 ));
 ```
 
 ## 具体功能实例：
-

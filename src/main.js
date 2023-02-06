@@ -8,8 +8,8 @@ export default class MasquesRequest {
     this.options = options;
     // 注册生命周期钩子
     registerHooks();
-    // 使用默认插件
-    this.useDefaaultPlugin();
+    // 使用插件
+    this.usePlugins(options.plugins);
     // 创建http请求之前的钩子，用于获取配置或修改实例
     useHook('beforeHttpCreated', options, this);
     // 工厂创建请求实例
@@ -29,9 +29,9 @@ export default class MasquesRequest {
     }
   }
   // 使用默认插件
-  useDefaaultPlugin() {
+  usePlugins(userPlugins = []) {
     const DefaaultPlugin = [cancleRepeatPlugin, loadingPlugin];
-    DefaaultPlugin.forEach((plugin) => {
+    [...DefaaultPlugin, ...userPlugins].forEach((plugin) => {
       this.use(plugin);
     });
   }
