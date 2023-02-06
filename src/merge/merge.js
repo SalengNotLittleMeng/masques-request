@@ -20,9 +20,11 @@ export default class Merge {
       baseUrl: '',
     };
   }
+  // 合并axios默认请求
   mergeAxiosDefaultOptons(config = {}) {
     return this.mergeObjectOptions(this.getAxiosDefaultOptions(), config);
   }
+  // 合并请求默认配置
   mergeRequestDefaultOptons(config = {}) {
     return this.mergeObjectOptions(this.getRequestDefaultOptions(), config);
   }

@@ -1,3 +1,4 @@
+// 订阅发布模式，注册生命周期钩子
 class EventBus {
   constructor() {
     this.event = {};
