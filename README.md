@@ -26,32 +26,38 @@ yarn 安装:
 
 ```js
 import MasquesRequest '@masques/request'
+
 ...
+
 Vue.use(new MasquesRequest(
+// token名称
     tokenName:'token',
-    tokenHeader:'tokenHeader'，
-    auth:{
-        username:'test',
-        password:'password'
-    },
+// 请求头上的token名
+    tokenHeader:'tokenHeader',
+// 错误处理配置
     errorHandler:{
        state:{
-         400:()=>{}
+         400:()=>{console.log('400错误')}
        },
        outLine:()=>{
-
+        console.log('断网')
        },
        other:()=>{}
     },
+//loading配置
     loading:{
         service:()=>{
-
+            console.log('调用loading动画')
         }
         close:()=>{
-
+            console.log('结束loading动画')
         }
-    }
+    },
+    //   重连配置
+    retryCount:3,
+    retryDelay:3000,
+    plugins:[
+    // 自定义插件
+    ]
 ));
 ```
-
-## 具体功能实例：

@@ -16,10 +16,10 @@
     const reuqest = new MasquesRequest({
       loading: {
         service: () => {
-          console.log('1');
+          console.log('loading开启');
         },
         close: () => {
-          console.log('关闭');
+          console.log('loading关闭');
         },
       },
     });
@@ -31,6 +31,11 @@
           method: 'get',
           url: './mock.json',
           data: { hello: this.a },
+          loading: {
+            service: () => {
+              console.log('单独设置loading');
+            },
+          },
         }).then((res) => {
           console.log(res);
         });
