@@ -13,9 +13,17 @@
   </body>
   <script type="module">
     import MasquesRequest from '../lib/masquesRequest.js';
-    const reuqest = new MasquesRequest();
+    const reuqest = new MasquesRequest({
+      loading: {
+        service: () => {
+          console.log('1');
+        },
+        close: () => {
+          console.log('关闭');
+        },
+      },
+    });
     Vue.use(reuqest);
-    // Vue.use(new handlyDirectives());
     let app = new Vue({
       el: '#app',
       mounted() {

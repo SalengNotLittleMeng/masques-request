@@ -24,6 +24,9 @@ export default class MasquesRequest {
   }
   useDefaaultPlugin() {
     const DefaaultPlugin = [cancleRepeatPlugin, loadingPlugin];
+    DefaaultPlugin.forEach((plugin) => {
+      this.use(plugin);
+    });
   }
   use(plugin) {
     Object.keys(plugin).forEach((hook) => {

@@ -8,7 +8,7 @@ import { useHook } from '../hooks/index';
 export default class HttpFactory {
   constructor(options = {}) {
     this.merge = new Merge();
-    this.instance = axios.create(this.merge.getAxiosDefaultOptions(options.axiosOptions));
+    this.instance = axios.create(this.merge.mergeAxiosDefaultOptons(options));
     this.interceptor = new Interceptor(this.instance);
     this.interceptor.addUtilsConfig(options);
   }
@@ -23,8 +23,7 @@ export default class HttpFactory {
   // 重新设置请求头
   setRequestHeadConfig(config) {
     const Type = config.type;
-    const requestTypeStrategyPond = HttpHeaderTypeStrategyPond;
-    requestTypeStrategyPond[Type](config);
+    HttpHeaderTypeStrategyPond[Type](config);
     return config;
   }
   // 为了确保处理顺序的可维护性，这里采用职责链遍历

@@ -8,6 +8,7 @@ export const loadingPlugin = {
   beforeCreateRequsetFunction: function (vm) {
     const { interceptor } = vm;
     interceptor.addRequestInterceptors(function (config) {
+      console.log(config);
       loading.addLoadingItem(config);
       return config;
     });

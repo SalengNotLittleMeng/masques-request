@@ -11,7 +11,7 @@ export default class Loading {
     if (this.count > 0) {
       this.count--;
     }
-    if (this.count === 0) {
+    if (this.count === 0 && this.current) {
       this.current.close && this.current.close(response);
       this.current = null;
     }
@@ -20,7 +20,9 @@ export default class Loading {
     if (config.loading) {
       this.count++;
       if (this.count === 1 && config.loading.service) {
-        this.current = config.loading.service(Object.assign(this.options, config.loading));
+        const merginConfig = Object.assign(this.options, config.loading);
+        config.loading.service(merginConfig);
+        this.current = merginConfig;
       }
     }
   }
